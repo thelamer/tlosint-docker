@@ -22,5 +22,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: >
           docker buildx build --push
-          --tag ghcr.io/thelamer/tlosint-docker:$(git rev-parse --short HEAD)
+          --tag ghcr.io/thelamer/tlosint-docker:$(curl -sX GET "https://api.github.com/repos/tracelabs/tlosint-vm/releases/latest" | awk '/tag_name/{print $4;exit}' FS='[""]')-$(git rev-parse --short HEAD)
           --tag ghcr.io/thelamer/tlosint-docker:latest .
