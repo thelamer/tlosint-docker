@@ -40,7 +40,9 @@ apt-get install -y --no-install-recommends \
   photon \
   pipx \
   pkg-config \
+  python3-exifread \
   python3-fake-useragent \
+  python3-pip \
   rsync \
   sherlock \
   sn0int \
