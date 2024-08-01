@@ -158,5 +158,55 @@ git clone \
   https://github.com/tjnull/TJ-OSINT-Notebook.git \
   "${COPY_HOME}"Desktop/TJ-OSINT-Notebook
 
+## Wrap chromium apps ##
+
+# Chromium
+mv \
+  /usr/bin/chromium \
+  /usr/bin/chromium-orig
+cat >/usr/bin/chromium <<EOL
+#!/usr/bin/env bash
+if ! pgrep chromium > /dev/null;then
+  rm -f \$HOME/.config/chromium/Singleton*
+fi  
+sed -i 's/"exited_cleanly":false/"exited_cleanly":true/' ~/.config/chromium/Default/Preferences
+sed -i 's/"exit_type":"Crashed"/"exit_type":"None"/' ~/.config/chromium/Default/Preferences
+if grep -q 'Seccomp:.0' /proc/1/status; then
+    CHROMIUM_ARGS="--password-store=basic --ignore-gpu-blocklist --user-data-dir --no-first-run"
+else
+    CHROMIUM_ARGS="--password-store=basic --no-sandbox --test-type --ignore-gpu-blocklist --user-data-dir --no-first-run"
+fi
+if [ -f /opt/VirtualGL/bin/vglrun ] && [ ! -z "\${KASM_EGL_CARD}" ] && [ ! -z "\${KASM_RENDERD}" ] && [ -O "\${KASM_RENDERD}" ] && [ -O "\${KASM_EGL_CARD}" ] ; then
+    echo "Starting Chromium with GPU Acceleration on EGL device \${KASM_EGL_CARD}"
+    vglrun -d "\${KASM_EGL_CARD}" /usr/bin/chromium-orig \${CHROMIUM_ARGS} "\$@" 
+else
+    echo "Starting Chromium"
+    /usr/bin/chromium-orig \${CHROMIUM_ARGS} "\$@"
+fi  
+EOL
+chmod +x /usr/bin/chromium
+
+# Obsidian
+mv \
+  /opt/obsidian/AppRun \
+  /opt/obsidian/AppRun-orig
+cat >/opt/obsidian/AppRun <<EOL
+#!/usr/bin/env bash
+export APPDIR=/opt/obsidian
+if grep -q 'Seccomp:.0' /proc/1/status; then
+    OBSIDIAN_ARGS="--password-store=basic --ignore-gpu-blocklist --user-data-dir"
+else
+    OBSIDIAN_ARGS="--password-store=basic --no-sandbox --ignore-gpu-blocklist --user-data-dir"
+fi
+if [ -f /opt/VirtualGL/bin/vglrun ] && [ ! -z "\${KASM_EGL_CARD}" ] && [ ! -z "\${KASM_RENDERD}" ] && [ -O "\${KASM_RENDERD}" ] && [ -O "\${KASM_EGL_CARD}" ] ; then
+    echo "Starting Obsidian with GPU Acceleration on EGL device \${KASM_EGL_CARD}"
+    vglrun -d "\${KASM_EGL_CARD}" /opt/obsidian/AppRun-orig \${OBSIDIAN_ARGS} "\$@" 
+else
+    echo "Starting Obsidian"
+    /opt/obsidian/AppRun-orig \${OBSIDIAN_ARGS} "\$@"
+fi  
+EOL
+chmod +x /opt/obsidian/AppRun
+
 # Icon cache
 update-icon-caches /usr/share/icons/*
