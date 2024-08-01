@@ -17,6 +17,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-        run: >
+      - run: >
           docker buildx build --push
           --tag ghcr.io/thelamer/tlosint-docker .
