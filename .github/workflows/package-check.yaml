@@ -13,8 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
       - run: |
           bash ci-scripts/update-packages.sh
           git config --global user.name 'Package Bot'
