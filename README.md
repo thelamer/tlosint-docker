@@ -1,6 +1,6 @@
 # [ghcr.io/tracelabs/tlosint-docker](https://github.com/tracelabs/tlosint-docker)
 
-![logo](https://raw.githubusercontent.com/thelamer/tlosint-docker/master/root/usr/share/icons/hicolor/scalable/categories/tracelabs.svg)
+![logo](https://raw.githubusercontent.com/tracelabs/tlosint-docker/master/root/usr/share/icons/hicolor/scalable/categories/tracelabs.svg)
 
 ## Application Setup
 
