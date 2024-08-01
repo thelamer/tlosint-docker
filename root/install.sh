@@ -29,6 +29,7 @@ apt-get install -y --no-install-recommends \
   exifprobe \
   eyewitness \
   finalrecon \
+  firefox-esr \
   git \
   instaloader \
   joplin \
