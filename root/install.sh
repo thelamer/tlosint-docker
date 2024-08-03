@@ -210,3 +210,8 @@ chmod +x /opt/obsidian/AppRun
 
 # Icon cache
 update-icon-caches /usr/share/icons/*
+
+# Cleanup
+rm -Rf \
+  "${COPY_HOME}".cache \
+  /tmp/* 
